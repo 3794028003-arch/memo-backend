@@ -1,0 +1,43 @@
+name: Memo Backend CI
+
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+
+    steps:
+
+    # 1. 拉取代码
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+
+    # 2. 安装 Java
+    - name: Setup JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+
+
+    # 3. 测试
+    - name: Run Tests
+      run: ./mvnw test
+
+
+    # 4. 打包
+    - name: Build Application
+      run: ./mvnw clean package -DskipTests
