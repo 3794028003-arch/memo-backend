@@ -96,5 +96,5 @@ jobs:
          uses: actions/checkout@v4
 
        - name: Deploy latest Docker image
-         shell: powershell
+         shell: cmd
          run: powershell -NoProfile -ExecutionPolicy Bypass -File .\deploy.ps1
