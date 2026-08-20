@@ -23,6 +23,14 @@ class ApiIntegrationTests {
     @Autowired MockMvc mockMvc;
 
     @Test
+    void deploymentInfoIsPublicAndReturnsVersion() throws Exception {
+        mockMvc.perform(get("/api/deployment-info"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.message").value("Memo Backend automatic deployment works"))
+                .andExpect(jsonPath("$.data.version").value("1.0"));
+    }
+
+    @Test
     void registerSuccessAndDuplicateUsernameReturns409() throws Exception {
         String username = username();
         mockMvc.perform(post("/api/auth/register").contentType(MediaType.APPLICATION_JSON).content(registerJson(username)))
