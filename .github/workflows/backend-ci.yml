@@ -85,3 +85,16 @@ jobs:
         run: |
           docker push \
           ${{ secrets.DOCKER_USERNAME }}/memo-backend:latest
+  deploy:
+     name: Deploy on Windows
+     needs: build
+     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+     runs-on: [self-hosted, Windows, X64, memo-deploy]
+
+     steps:
+       - name: Checkout code
+         uses: actions/checkout@v4
+
+       - name: Deploy latest Docker image
+         shell: powershell
+         run: powershell -NoProfile -ExecutionPolicy Bypass -File .\deploy.ps1
